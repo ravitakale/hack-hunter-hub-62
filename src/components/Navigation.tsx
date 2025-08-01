@@ -10,8 +10,9 @@ import ThemeToggle from "@/components/ThemeToggle";
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   // TODO: Replace with actual auth state
-  const isLoggedIn = false; // This should come from your auth context/state
-  const userInitials = "JD"; // This should come from user data
+  const isLoggedIn = true; // Set to true to show researcher profile
+  const userInitials = "RS"; // Researcher initials
+  const userName = "Security Researcher"; // This should come from user data
   const location = useLocation();
 
   const isActive = (path: string) => location.pathname === path;
@@ -68,21 +69,25 @@ const Navigation = () => {
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56" align="end" forceMount>
+              <DropdownMenuContent className="w-56 bg-background border shadow-lg" align="end" forceMount>
+                <div className="px-3 py-2 border-b">
+                  <p className="text-sm font-medium">{userName}</p>
+                  <p className="text-xs text-muted-foreground">Researcher Profile</p>
+                </div>
                 <DropdownMenuItem asChild>
                   <Link to="/profile" className="flex items-center">
                     <User className="mr-2 h-4 w-4" />
-                    <span>Profile</span>
+                    <span>View Profile</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link to="/settings" className="flex items-center">
                     <Settings className="mr-2 h-4 w-4" />
-                    <span>Settings</span>
+                    <span>Profile Settings</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="flex items-center text-red-600">
+                <DropdownMenuItem className="flex items-center text-red-600 cursor-pointer">
                   <LogOut className="mr-2 h-4 w-4" />
                   <span>Log out</span>
                 </DropdownMenuItem>
@@ -133,13 +138,13 @@ const Navigation = () => {
                       <Link to="/profile" onClick={() => setIsOpen(false)}>
                         <Button variant="ghost" className="w-full justify-start">
                           <User className="mr-2 h-4 w-4" />
-                          Profile
+                          View Profile
                         </Button>
                       </Link>
                       <Link to="/settings" onClick={() => setIsOpen(false)}>
                         <Button variant="ghost" className="w-full justify-start">
                           <Settings className="mr-2 h-4 w-4" />
-                          Settings
+                          Profile Settings
                         </Button>
                       </Link>
                       <Button variant="ghost" className="w-full justify-start text-red-600">
