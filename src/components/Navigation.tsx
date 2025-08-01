@@ -6,21 +6,20 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Menu, Shield, Bug, User, Settings, LogOut } from "lucide-react";
 import ThemeToggle from "@/components/ThemeToggle";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-  // TODO: Replace with actual auth state
-  const isLoggedIn = false; // Set to false to show login options
-  const userInitials = "RS"; // Researcher initials
-  const userName = "Security Researcher"; // This should come from user data
+  const { user, isLoggedIn, logout } = useAuth();
 
   const handleLogout = () => {
-    // TODO: Implement actual logout logic
-    console.log("Logging out...");
-    // For now, just redirect to home
-    window.location.href = "/";
+    logout();
+    setIsOpen(false);
   };
+
+  const userInitials = user ? user.name.split(' ').map(n => n[0]).join('') : "";
+  const userName = user?.name || "";
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -79,7 +78,7 @@ const Navigation = () => {
               <DropdownMenuContent className="w-56 bg-background border shadow-lg" align="end" forceMount>
                 <div className="px-3 py-2 border-b">
                   <p className="text-sm font-medium">{userName}</p>
-                  <p className="text-xs text-muted-foreground">Researcher Profile</p>
+                  <p className="text-xs text-muted-foreground">Security Researcher</p>
                 </div>
                 <DropdownMenuItem asChild>
                   <Link to="/profile" className="flex items-center">
@@ -90,7 +89,7 @@ const Navigation = () => {
                 <DropdownMenuItem asChild>
                   <Link to="/settings" className="flex items-center">
                     <Settings className="mr-2 h-4 w-4" />
-                    <span>Profile Settings</span>
+                    <span>Edit Profile</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
@@ -151,7 +150,7 @@ const Navigation = () => {
                       <Link to="/settings" onClick={() => setIsOpen(false)}>
                         <Button variant="ghost" className="w-full justify-start">
                           <Settings className="mr-2 h-4 w-4" />
-                          Profile Settings
+                          Edit Profile
                         </Button>
                       </Link>
                       <Button onClick={handleLogout} variant="ghost" className="w-full justify-start text-red-600">

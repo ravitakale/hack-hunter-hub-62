@@ -9,7 +9,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Shield, Eye, EyeOff, Mail, Lock, Github, Chrome } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -17,7 +18,7 @@ const SignIn = () => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
-
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -27,14 +28,18 @@ const SignIn = () => {
     // Demo authentication for researchers
     setTimeout(() => {
       if (email && password) {
-        // Store user data in localStorage for demo
+        // Create user data for AuthContext
         const userData = {
+          id: "demo_researcher_123",
           email,
-          type: "researcher",
-          name: "Demo Researcher",
-          loginTime: new Date().toISOString()
+          name: "Alex Chen",
+          username: "alex_security",
+          type: "researcher" as const,
+          avatar: "/placeholder-avatar.jpg"
         };
-        localStorage.setItem("bugkabaap_user", JSON.stringify(userData));
+        
+        // Log in using AuthContext
+        login(userData);
         
         toast({
           title: "Welcome Back!",
