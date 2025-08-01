@@ -16,8 +16,6 @@ import {
   Bug, 
   Trophy, 
   Star,
-  Settings,
-  Edit3,
   Github,
   Linkedin,
   Globe
@@ -92,19 +90,6 @@ const Profile = () => {
                     <Calendar className="h-4 w-4" />
                     Joined {userData.joinDate}
                   </div>
-                </div>
-                
-                <div className="flex gap-3">
-                  <Link to="/settings">
-                    <Button variant="outline" size="sm">
-                      <Settings className="h-4 w-4 mr-2" />
-                      Edit Profile
-                    </Button>
-                  </Link>
-                  <Button variant="outline" size="sm">
-                    <Edit3 className="h-4 w-4 mr-2" />
-                    Update Bio
-                  </Button>
                 </div>
               </div>
             </div>
