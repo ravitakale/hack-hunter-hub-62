@@ -19,8 +19,6 @@ const Navigation = () => {
     { href: "/leaderboard", label: "Leaderboard" },
     { href: "/payments", label: "Payments" },
     { href: "/activity", label: "Activity" },
-    { href: "/settings", label: "Settings" },
-    { href: "/about", label: "About" },
   ];
 
   return (
