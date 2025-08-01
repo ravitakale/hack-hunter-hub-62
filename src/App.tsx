@@ -13,6 +13,8 @@ import Activity from "./pages/Activity";
 import About from "./pages/About";
 import Settings from "./pages/Settings";
 import Profile from "./pages/Profile";
+import LoginSelection from "./pages/LoginSelection";
+import SignupSelection from "./pages/SignupSelection";
 
 import Payments from "./pages/Payments";
 import Dashboard from "./pages/Dashboard";
@@ -52,6 +54,8 @@ const App = () => (
           <Route path="/settings" element={<Settings />} />
           <Route path="/payments" element={<Payments />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/login" element={<LoginSelection />} />
+          <Route path="/signup" element={<SignupSelection />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/researcher/signin" element={<SignIn />} />
           <Route path="/researcher/signup" element={<SignUp />} />

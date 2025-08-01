@@ -9,11 +9,18 @@ import ThemeToggle from "@/components/ThemeToggle";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
   // TODO: Replace with actual auth state
-  const isLoggedIn = true; // Set to true to show researcher profile
+  const isLoggedIn = false; // Set to false to show login options
   const userInitials = "RS"; // Researcher initials
   const userName = "Security Researcher"; // This should come from user data
-  const location = useLocation();
+
+  const handleLogout = () => {
+    // TODO: Implement actual logout logic
+    console.log("Logging out...");
+    // For now, just redirect to home
+    window.location.href = "/";
+  };
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -87,7 +94,7 @@ const Navigation = () => {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="flex items-center text-red-600 cursor-pointer">
+                <DropdownMenuItem onClick={handleLogout} className="flex items-center text-red-600 cursor-pointer">
                   <LogOut className="mr-2 h-4 w-4" />
                   <span>Log out</span>
                 </DropdownMenuItem>
@@ -95,10 +102,10 @@ const Navigation = () => {
             </DropdownMenu>
           ) : (
             <>
-              <Link to="/researcher/signin">
+              <Link to="/login">
                 <Button variant="ghost">Sign In</Button>
               </Link>
-              <Link to="/researcher/signup">
+              <Link to="/login">
                 <Button variant="hero">Get Started</Button>
               </Link>
             </>
@@ -147,17 +154,17 @@ const Navigation = () => {
                           Profile Settings
                         </Button>
                       </Link>
-                      <Button variant="ghost" className="w-full justify-start text-red-600">
+                      <Button onClick={handleLogout} variant="ghost" className="w-full justify-start text-red-600">
                         <LogOut className="mr-2 h-4 w-4" />
                         Log out
                       </Button>
                     </>
                   ) : (
                     <>
-                      <Link to="/researcher/signin" onClick={() => setIsOpen(false)}>
+                      <Link to="/login" onClick={() => setIsOpen(false)}>
                         <Button variant="ghost" className="w-full">Sign In</Button>
                       </Link>
-                      <Link to="/researcher/signup" onClick={() => setIsOpen(false)}>
+                      <Link to="/login" onClick={() => setIsOpen(false)}>
                         <Button variant="hero" className="w-full">Get Started</Button>
                       </Link>
                     </>
