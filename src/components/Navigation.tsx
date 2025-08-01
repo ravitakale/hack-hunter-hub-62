@@ -2,11 +2,16 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, Shield, Bug } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Menu, Shield, Bug, User, Settings, LogOut } from "lucide-react";
 import ThemeToggle from "@/components/ThemeToggle";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
+  // TODO: Replace with actual auth state
+  const isLoggedIn = false; // This should come from your auth context/state
+  const userInitials = "JD"; // This should come from user data
   const location = useLocation();
 
   const isActive = (path: string) => location.pathname === path;
@@ -50,15 +55,49 @@ const Navigation = () => {
           ))}
         </div>
 
-        {/* Desktop Auth Buttons */}
+        {/* Desktop Auth/Profile Section */}
         <div className="hidden md:flex items-center space-x-4">
           <ThemeToggle />
-          <Link to="/researcher/signin">
-            <Button variant="ghost">Sign In</Button>
-          </Link>
-          <Link to="/researcher/signup">
-            <Button variant="hero">Get Started</Button>
-          </Link>
+          {isLoggedIn ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage src="/placeholder-avatar.jpg" alt="Profile" />
+                    <AvatarFallback>{userInitials}</AvatarFallback>
+                  </Avatar>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56" align="end" forceMount>
+                <DropdownMenuItem asChild>
+                  <Link to="/profile" className="flex items-center">
+                    <User className="mr-2 h-4 w-4" />
+                    <span>Profile</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/settings" className="flex items-center">
+                    <Settings className="mr-2 h-4 w-4" />
+                    <span>Settings</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="flex items-center text-red-600">
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Log out</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <>
+              <Link to="/researcher/signin">
+                <Button variant="ghost">Sign In</Button>
+              </Link>
+              <Link to="/researcher/signup">
+                <Button variant="hero">Get Started</Button>
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Mobile Navigation */}
@@ -89,12 +128,35 @@ const Navigation = () => {
                     <span className="text-sm text-muted-foreground">Theme</span>
                     <ThemeToggle />
                   </div>
-                  <Link to="/researcher/signin" onClick={() => setIsOpen(false)}>
-                    <Button variant="ghost" className="w-full">Sign In</Button>
-                  </Link>
-                  <Link to="/researcher/signup" onClick={() => setIsOpen(false)}>
-                    <Button variant="hero" className="w-full">Get Started</Button>
-                  </Link>
+                  {isLoggedIn ? (
+                    <>
+                      <Link to="/profile" onClick={() => setIsOpen(false)}>
+                        <Button variant="ghost" className="w-full justify-start">
+                          <User className="mr-2 h-4 w-4" />
+                          Profile
+                        </Button>
+                      </Link>
+                      <Link to="/settings" onClick={() => setIsOpen(false)}>
+                        <Button variant="ghost" className="w-full justify-start">
+                          <Settings className="mr-2 h-4 w-4" />
+                          Settings
+                        </Button>
+                      </Link>
+                      <Button variant="ghost" className="w-full justify-start text-red-600">
+                        <LogOut className="mr-2 h-4 w-4" />
+                        Log out
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Link to="/researcher/signin" onClick={() => setIsOpen(false)}>
+                        <Button variant="ghost" className="w-full">Sign In</Button>
+                      </Link>
+                      <Link to="/researcher/signup" onClick={() => setIsOpen(false)}>
+                        <Button variant="hero" className="w-full">Get Started</Button>
+                      </Link>
+                    </>
+                  )}
                 </div>
               </div>
             </SheetContent>
