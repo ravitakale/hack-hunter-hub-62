@@ -184,20 +184,64 @@ const Settings = () => {
                   />
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="specialties">Specialties</Label>
-                  <Select defaultValue="web-security">
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="web-security">Web Security</SelectItem>
-                      <SelectItem value="mobile-security">Mobile Security</SelectItem>
-                      <SelectItem value="api-security">API Security</SelectItem>
-                      <SelectItem value="cloud-security">Cloud Security</SelectItem>
-                      <SelectItem value="iot-security">IoT Security</SelectItem>
-                    </SelectContent>
-                  </Select>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="specialties">Primary Specialty</Label>
+                    <Select defaultValue="web-security">
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="web-security">Web Application Security</SelectItem>
+                        <SelectItem value="mobile-security">Mobile Security</SelectItem>
+                        <SelectItem value="api-security">API Security</SelectItem>
+                        <SelectItem value="cloud-security">Cloud Security</SelectItem>
+                        <SelectItem value="network-security">Network Security</SelectItem>
+                        <SelectItem value="iot-security">IoT Security</SelectItem>
+                        <SelectItem value="social-engineering">Social Engineering</SelectItem>
+                        <SelectItem value="reverse-engineering">Reverse Engineering</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="experience">Experience Level</Label>
+                    <Select defaultValue="intermediate">
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="beginner">Beginner (0-2 years)</SelectItem>
+                        <SelectItem value="intermediate">Intermediate (2-5 years)</SelectItem>
+                        <SelectItem value="advanced">Advanced (5-10 years)</SelectItem>
+                        <SelectItem value="expert">Expert (10+ years)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                <Separator />
+
+                {/* Social Links */}
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold">Social Links</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="github">GitHub Profile</Label>
+                      <Input id="github" placeholder="https://github.com/username" defaultValue="https://github.com/akash_hunter" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="linkedin">LinkedIn Profile</Label>
+                      <Input id="linkedin" placeholder="https://linkedin.com/in/username" defaultValue="https://linkedin.com/in/akash-kumar-security" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="website">Personal Website</Label>
+                      <Input id="website" placeholder="https://yourwebsite.com" defaultValue="https://akashsecurity.dev" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="twitter">Twitter/X Profile</Label>
+                      <Input id="twitter" placeholder="https://twitter.com/username" />
+                    </div>
+                  </div>
                 </div>
 
                 <Button className="w-full md:w-auto">

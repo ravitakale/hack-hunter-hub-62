@@ -12,6 +12,7 @@ import Courses from "./pages/Courses";
 import Activity from "./pages/Activity";
 import About from "./pages/About";
 import Settings from "./pages/Settings";
+import Profile from "./pages/Profile";
 
 import Payments from "./pages/Payments";
 import Dashboard from "./pages/Dashboard";
@@ -50,6 +51,7 @@ const App = () => (
           <Route path="/about" element={<About />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/payments" element={<Payments />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/researcher/signin" element={<SignIn />} />
           <Route path="/researcher/signup" element={<SignUp />} />
