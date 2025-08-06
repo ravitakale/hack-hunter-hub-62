@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Shield, Eye, EyeOff, Mail, Lock, Github, Chrome } from "lucide-react";
+import { Shield, Eye, EyeOff, Mail, Lock, Github, Chrome, Bug, Search } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -16,6 +16,7 @@ const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [researcherType, setResearcherType] = useState<'manual-tester' | 'penetration-tester'>('manual-tester');
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const { login } = useAuth();
@@ -32,9 +33,10 @@ const SignIn = () => {
         const userData = {
           id: "demo_researcher_123",
           email,
-          name: "Alex Chen",
+          name: researcherType === 'manual-tester' ? "Alex Chen (Manual Tester)" : "Alex Chen (Penetration Tester)",
           username: "alex_security",
           type: "researcher" as const,
+          researcherType,
           avatar: "/placeholder-avatar.jpg"
         };
         
@@ -166,6 +168,38 @@ const SignIn = () => {
                     <span className="bg-background px-2 text-muted-foreground">
                       Or continue with email
                     </span>
+                  </div>
+                </div>
+
+                {/* Researcher Type Selection */}
+                <div className="space-y-3">
+                  <Label>Researcher Type</Label>
+                  <div className="grid grid-cols-2 gap-3">
+                    <Button
+                      type="button"
+                      variant={researcherType === 'manual-tester' ? 'default' : 'outline'}
+                      className="h-auto p-4 flex flex-col items-center space-y-2"
+                      onClick={() => setResearcherType('manual-tester')}
+                    >
+                      <Search className="h-5 w-5" />
+                      <div className="text-center">
+                        <div className="text-sm font-medium">Manual Tester</div>
+                        <div className="text-xs text-muted-foreground">Manual testing & QA</div>
+                      </div>
+                    </Button>
+                    
+                    <Button
+                      type="button"
+                      variant={researcherType === 'penetration-tester' ? 'default' : 'outline'}
+                      className="h-auto p-4 flex flex-col items-center space-y-2"
+                      onClick={() => setResearcherType('penetration-tester')}
+                    >
+                      <Bug className="h-5 w-5" />
+                      <div className="text-center">
+                        <div className="text-sm font-medium">Penetration Tester</div>
+                        <div className="text-xs text-muted-foreground">Security testing</div>
+                      </div>
+                    </Button>
                   </div>
                 </div>
 

@@ -7,6 +7,7 @@ interface User {
   username: string;
   avatar?: string;
   type: 'researcher' | 'organization';
+  researcherType?: 'manual-tester' | 'penetration-tester';
 }
 
 interface AuthContextType {
