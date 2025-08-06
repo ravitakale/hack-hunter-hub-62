@@ -12,26 +12,28 @@ import { Building2, DollarSign, Calendar, Shield, Search, Filter } from "lucide-
 const Programs = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
+  const [filterType, setFilterType] = useState("all");
   const [sortBy, setSortBy] = useState("newest");
 
   const programs = [
     {
       id: 1,
-      title: "TechCorp Security Program",
+      title: "TechCorp Manual Testing Program",
       company: "TechCorp India",
       logo: "🏢",
-      minReward: "₹10,000",
-      maxReward: "₹5,00,000",
+      minReward: "₹5,000",
+      maxReward: "₹2,50,000",
       scope: "Web Application, Mobile App",
       launched: "2 days ago",
       status: "Active",
       severity: ["Critical", "High", "Medium", "Low"],
-      description: "Find vulnerabilities in our core platform and mobile applications.",
-      participants: 245
+      description: "Manual testing program for UI/UX, functionality, and usability testing.",
+      participants: 145,
+      type: "manual-testing"
     },
     {
       id: 2,
-      title: "FinanceSecure Bug Bounty",
+      title: "FinanceSecure Penetration Testing",
       company: "SecureBank",
       logo: "🏦",
       minReward: "₹25,000",
@@ -40,26 +42,28 @@ const Programs = () => {
       launched: "1 week ago",
       status: "Active",
       severity: ["Critical", "High"],
-      description: "Secure our financial platform used by millions of customers.",
-      participants: 189
+      description: "Advanced penetration testing for financial platform security vulnerabilities.",
+      participants: 89,
+      type: "penetration-testing"
     },
     {
       id: 3,
-      title: "E-Commerce Security Challenge",
+      title: "E-Commerce Manual QA Program",
       company: "ShopSafe",
       logo: "🛒",
-      minReward: "₹5,000",
-      maxReward: "₹2,50,000",
+      minReward: "₹3,000",
+      maxReward: "₹1,50,000",
       scope: "E-commerce Platform",
       launched: "3 days ago",
       status: "Active",
-      severity: ["Critical", "High", "Medium"],
-      description: "Help us protect customer data and payment systems.",
-      participants: 156
+      severity: ["High", "Medium", "Low"],
+      description: "Manual testing for user flows, checkout process, and UI functionality.",
+      participants: 210,
+      type: "manual-testing"
     },
     {
       id: 4,
-      title: "CloudTech Infrastructure Security",
+      title: "CloudTech Infrastructure Penetration",
       company: "CloudTech Solutions",
       logo: "☁️",
       minReward: "₹15,000",
@@ -68,36 +72,69 @@ const Programs = () => {
       launched: "5 days ago",
       status: "Active",
       severity: ["Critical", "High", "Medium"],
-      description: "Secure our cloud infrastructure and API endpoints.",
-      participants: 203
+      description: "Penetration testing for cloud infrastructure and API security.",
+      participants: 67,
+      type: "penetration-testing"
     },
     {
       id: 5,
-      title: "HealthTech Platform Security",
+      title: "HealthTech Manual Testing Suite",
       company: "MedSecure",
       logo: "🏥",
-      minReward: "₹20,000",
-      maxReward: "₹8,00,000",
+      minReward: "₹8,000",
+      maxReward: "₹4,00,000",
       scope: "Healthcare Platform, Patient Data",
       launched: "1 week ago",
       status: "Active",
-      severity: ["Critical", "High"],
-      description: "Protect sensitive healthcare data and patient information.",
-      participants: 167
+      severity: ["Critical", "High", "Medium"],
+      description: "Manual testing for healthcare workflows, data entry, and patient management.",
+      participants: 123,
+      type: "manual-testing"
     },
     {
       id: 6,
-      title: "EdTech Learning Platform",
+      title: "EdTech Security Penetration Test",
       company: "EduSecure",
       logo: "📚",
-      minReward: "₹8,000",
-      maxReward: "₹3,00,000",
+      minReward: "₹12,000",
+      maxReward: "₹5,00,000",
       scope: "Learning Platform, Student Data",
       launched: "2 weeks ago",
       status: "Active",
-      severity: ["Critical", "High", "Medium", "Low"],
-      description: "Secure our educational platform and student data.",
-      participants: 134
+      severity: ["Critical", "High", "Medium"],
+      description: "Penetration testing for educational platform security and student data protection.",
+      participants: 54,
+      type: "penetration-testing"
+    },
+    {
+      id: 7,
+      title: "Mobile App Manual Testing Program",
+      company: "AppTech Solutions",
+      logo: "📱",
+      minReward: "₹4,000",
+      maxReward: "₹2,00,000",
+      scope: "Mobile Applications",
+      launched: "4 days ago",
+      status: "Active",
+      severity: ["High", "Medium", "Low"],
+      description: "Comprehensive manual testing for mobile app functionality and user experience.",
+      participants: 189,
+      type: "manual-testing"
+    },
+    {
+      id: 8,
+      title: "API Security Penetration Testing",
+      company: "DataSecure Corp",
+      logo: "🔌",
+      minReward: "₹20,000",
+      maxReward: "₹8,00,000",
+      scope: "REST APIs, GraphQL",
+      launched: "6 days ago",
+      status: "Active",
+      severity: ["Critical", "High"],
+      description: "Advanced API penetration testing for REST and GraphQL endpoints.",
+      participants: 42,
+      type: "penetration-testing"
     }
   ];
 
@@ -149,6 +186,17 @@ const Programs = () => {
             </SelectContent>
           </Select>
 
+          <Select value={filterType} onValueChange={setFilterType}>
+            <SelectTrigger className="w-full md:w-[180px]">
+              <SelectValue placeholder="Filter by type" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Types</SelectItem>
+              <SelectItem value="manual-testing">Manual Testing</SelectItem>
+              <SelectItem value="penetration-testing">Penetration Testing</SelectItem>
+            </SelectContent>
+          </Select>
+
           <Select value={sortBy} onValueChange={setSortBy}>
             <SelectTrigger className="w-full md:w-[180px]">
               <SelectValue placeholder="Sort by" />
@@ -165,7 +213,15 @@ const Programs = () => {
 
         {/* Programs Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {programs.map((program) => (
+          {programs
+            .filter(program => {
+              if (filterType !== "all" && program.type !== filterType) return false;
+              if (filterStatus !== "all" && program.status.toLowerCase() !== filterStatus) return false;
+              if (searchQuery && !program.title.toLowerCase().includes(searchQuery.toLowerCase()) && 
+                  !program.company.toLowerCase().includes(searchQuery.toLowerCase())) return false;
+              return true;
+            })
+            .map((program) => (
             <Card key={program.id} className="hover:shadow-lg transition-shadow">
               <CardHeader>
                 <div className="flex items-start justify-between">
@@ -181,11 +237,19 @@ const Programs = () => {
                   </div>
                   <Badge variant="secondary">{program.status}</Badge>
                 </div>
-              </CardHeader>
+               </CardHeader>
 
-              <CardContent className="space-y-4">
-                <p className="text-sm text-muted-foreground">{program.description}</p>
-                
+               <CardContent className="space-y-4">
+                 <div className="flex items-center justify-between">
+                   <p className="text-sm text-muted-foreground flex-1">{program.description}</p>
+                   <Badge 
+                     variant={program.type === 'manual-testing' ? 'default' : 'secondary'}
+                     className="ml-2"
+                   >
+                     {program.type === 'manual-testing' ? 'Manual' : 'Pen Test'}
+                   </Badge>
+                 </div>
+                 
                 <div className="flex items-center text-sm">
                   <DollarSign className="h-4 w-4 mr-1 text-accent" />
                   <span className="font-medium">{program.minReward} - {program.maxReward}</span>
