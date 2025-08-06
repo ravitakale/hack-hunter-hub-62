@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Building2, DollarSign, Calendar, Shield, Search, Filter } from "lucide-react";
+import ManualTestingReportDialog from "@/components/ManualTestingReportDialog";
 
 const Programs = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -283,14 +284,18 @@ const Programs = () => {
                 </div>
               </CardContent>
 
-              <CardFooter className="gap-2">
-                <Link to={`/programs/${program.id}`} className="flex-1">
-                  <Button className="w-full">View Details</Button>
-                </Link>
-                <Link to={`/submit-report/${program.id}`}>
-                  <Button variant="outline">Submit Report</Button>
-                </Link>
-              </CardFooter>
+               <CardFooter className="gap-2">
+                 <Link to={`/programs/${program.id}`} className="flex-1">
+                   <Button className="w-full">View Details</Button>
+                 </Link>
+                 {program.type === 'manual-testing' ? (
+                   <ManualTestingReportDialog programId={program.id.toString()} />
+                 ) : (
+                   <Link to={`/submit-report/${program.id}`}>
+                     <Button variant="outline">Submit Report</Button>
+                   </Link>
+                 )}
+               </CardFooter>
             </Card>
           ))}
         </div>
