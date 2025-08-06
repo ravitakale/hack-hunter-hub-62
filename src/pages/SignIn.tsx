@@ -94,11 +94,38 @@ const SignIn = () => {
                   <Shield className="h-5 w-5 text-orange-600 mt-0.5" />
                   <div>
                     <p className="text-sm font-medium text-orange-800 dark:text-orange-200">
-                      Demo Mode Active
+                      Demo Mode Active - Manual Testing
                     </p>
                     <p className="text-sm text-orange-700 dark:text-orange-300">
-                      This is a demonstration. Enable Supabase authentication to activate real login functionality.
+                      Use any email/password to test login functionality. User will be logged in as "Alex Chen".
                     </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Test Credentials */}
+            <Card className="mb-6 border-blue-200 bg-blue-50 dark:bg-blue-950/20">
+              <CardContent className="p-4">
+                <div className="flex items-start space-x-3">
+                  <Mail className="h-5 w-5 text-blue-600 mt-0.5" />
+                  <div>
+                    <p className="text-sm font-medium text-blue-800 dark:text-blue-200">
+                      Quick Test Login
+                    </p>
+                    <div className="mt-2 space-y-1">
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        onClick={() => {
+                          setEmail("test@researcher.com");
+                          setPassword("test123");
+                        }}
+                        className="text-xs h-6 px-2 text-blue-700 dark:text-blue-300"
+                      >
+                        Fill test credentials
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </CardContent>
