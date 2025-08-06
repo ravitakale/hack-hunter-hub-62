@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
+import ManualTestingReportDialog from "@/components/ManualTestingReportDialog";
 import { 
   Building2, 
   DollarSign, 
@@ -26,26 +27,27 @@ const ProgramDetail = () => {
   // Demo data for the program detail
   const program = {
     id: 1,
-    title: "Flipkart Bug Bounty",
-    company: "Flipkart",
-    logo: "🛒",
+    title: "Manual Testing Program",
+    company: "TechCorp",
+    logo: "📱",
     type: "Public",
     status: "Open",
-    category: "Retail",
-    description: "Help secure India's largest e-commerce platform",
-    minReward: "₹10,000",
-    maxReward: "₹5,00,000",
-    participants: 1247,
-    submissions: 3456,
-    resolved: 892,
-    averageTime: "7 days"
+    category: "Manual Testing",
+    testingType: "manual-testing", // Add testing type
+    description: "Comprehensive manual testing program for UI/UX, functionality, and usability testing",
+    minReward: "₹5,000",
+    maxReward: "₹2,50,000",
+    participants: 245,
+    submissions: 1456,
+    resolved: 392,
+    averageTime: "5 days"
   };
 
-  const bounties = [
-    { severity: "Critical", reward: "₹3,00,000 - ₹5,00,000", description: "Authentication bypass, SQL injection in core systems" },
-    { severity: "High", reward: "₹1,00,000 - ₹2,50,000", description: "XSS, CSRF, privilege escalation" },
-    { severity: "Medium", reward: "₹25,000 - ₹75,000", description: "Information disclosure, business logic flaws" },
-    { severity: "Low", reward: "₹10,000 - ₹25,000", description: "Minor security issues, configuration problems" }
+  const testingScenarios = [
+    { severity: "Critical", reward: "₹1,50,000 - ₹2,50,000", description: "Complete user flow testing, core functionality validation" },
+    { severity: "High", reward: "₹75,000 - ₹1,25,000", description: "UI/UX testing, form validation, navigation testing" },
+    { severity: "Medium", reward: "₹25,000 - ₹50,000", description: "Browser compatibility, responsive design testing" },
+    { severity: "Low", reward: "₹5,000 - ₹15,000", description: "Content verification, minor UI inconsistencies" }
   ];
 
   const rulesOfEngagement = [
@@ -148,12 +150,23 @@ const ProgramDetail = () => {
             <p className="text-sm text-muted-foreground mb-4">
               Feel free to join in, this is a public engagement where anyone can participate.
             </p>
-            <Link to={`/submit-report/${program.id}`} className="block">
-              <Button className="w-full mb-2">Create submission</Button>
-            </Link>
-            <Button variant="outline" className="w-full text-xs">
-              View my submissions
-            </Button>
+            {program.testingType === 'manual-testing' ? (
+              <div className="space-y-2">
+                <ManualTestingReportDialog programId={program.id.toString()} />
+                <Button variant="outline" className="w-full text-xs">
+                  View my submissions
+                </Button>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                <Link to={`/submit-report/${program.id}`} className="block">
+                  <Button className="w-full mb-2">Create submission</Button>
+                </Link>
+                <Button variant="outline" className="w-full text-xs">
+                  View my submissions
+                </Button>
+              </div>
+            )}
           </div>
         </div>
 
@@ -172,25 +185,27 @@ const ProgramDetail = () => {
               </CardContent>
             </Card>
 
-            {/* Bounties */}
+            {/* Testing Scenarios / Bounties */}
             <Card>
               <CardHeader>
-                <CardTitle>Bounties</CardTitle>
+                <CardTitle>{program.testingType === 'manual-testing' ? 'Testing Scenarios' : 'Bounties'}</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground mb-4">
-                  This is a responsible disclosure program without bounties.
+                  {program.testingType === 'manual-testing' 
+                    ? 'Manual testing rewards based on testing complexity and findings.' 
+                    : 'This is a responsible disclosure program without bounties.'}
                 </p>
                 <div className="space-y-3">
-                  {bounties.map((bounty, index) => (
+                  {testingScenarios.map((scenario, index) => (
                     <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
                       <div className="flex items-center gap-3">
-                        <Badge variant={getSeverityColor(bounty.severity)}>
-                          {bounty.severity}
+                        <Badge variant={getSeverityColor(scenario.severity)}>
+                          {scenario.severity}
                         </Badge>
-                        <span className="text-sm">{bounty.description}</span>
+                        <span className="text-sm">{scenario.description}</span>
                       </div>
-                      <span className="font-medium text-sm">{bounty.reward}</span>
+                      <span className="font-medium text-sm">{scenario.reward}</span>
                     </div>
                   ))}
                 </div>
