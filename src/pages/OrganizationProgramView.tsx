@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { OrganizationSidebar } from "@/components/OrganizationSidebar";
 import { OrganizationNavbar } from "@/components/OrganizationNavbar";
@@ -28,7 +29,9 @@ import {
   Target,
   Activity,
   Star,
-  MessageCircle
+  MessageCircle,
+  Download,
+  ExternalLink
 } from "lucide-react";
 
 // Mock data - in real app this would come from API
@@ -186,6 +189,44 @@ export default function OrganizationProgramView() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [program] = useState(mockProgram);
+  const [selectedDoc, setSelectedDoc] = useState<string | null>(null);
+
+  const DocumentViewDialog = ({ docType, doc }: { docType: string, doc: any }) => (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="outline" size="sm" className="flex items-center space-x-2">
+          <FileText className="h-4 w-4" />
+          <span>View {docType}</span>
+          <ExternalLink className="h-3 w-3" />
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle className="flex items-center space-x-2">
+            <FileText className="h-5 w-5" />
+            <span>{docType} Documentation</span>
+          </DialogTitle>
+        </DialogHeader>
+        <div className="space-y-4">
+          <div className="flex items-center justify-between p-4 bg-muted rounded-lg">
+            <div className="flex items-center space-x-2">
+              <FileText className="h-5 w-5 text-primary" />
+              <span className="font-medium">{doc.file}</span>
+            </div>
+            <Button variant="outline" size="sm">
+              <Download className="h-4 w-4 mr-2" />
+              Download
+            </Button>
+          </div>
+          <div className="p-6 border rounded-lg bg-background">
+            <div className="prose max-w-none">
+              <p className="text-muted-foreground whitespace-pre-wrap">{doc.content}</p>
+            </div>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
 
   return (
     <SidebarProvider>
@@ -313,6 +354,68 @@ export default function OrganizationProgramView() {
                   </CardContent>
                 </Card>
               </div>
+
+              {/* Documentation Section for Manual Testing */}
+              {program.type === 'manual-testing' && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center space-x-2">
+                      <BookOpen className="h-5 w-5" />
+                      <span>Testing Documentation</span>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground mb-6">
+                      All required documentation for this manual testing program. Please review these documents thoroughly before starting your testing.
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="p-4 border rounded-lg space-y-3">
+                        <div className="flex items-center space-x-2">
+                          <FileText className="h-5 w-5 text-primary" />
+                          <h4 className="font-medium">User Story</h4>
+                        </div>
+                        <p className="text-sm text-muted-foreground">
+                          Describes the use case and user scenarios for testing.
+                        </p>
+                        <DocumentViewDialog docType="User Story" doc={program.documentation.userStory} />
+                      </div>
+                      
+                      <div className="p-4 border rounded-lg space-y-3">
+                        <div className="flex items-center space-x-2">
+                          <FileText className="h-5 w-5 text-primary" />
+                          <h4 className="font-medium">FRD (Functional Requirements)</h4>
+                        </div>
+                        <p className="text-sm text-muted-foreground">
+                          Functional requirements to understand intended behavior.
+                        </p>
+                        <DocumentViewDialog docType="FRD" doc={program.documentation.frd} />
+                      </div>
+                      
+                      <div className="p-4 border rounded-lg space-y-3">
+                        <div className="flex items-center space-x-2">
+                          <FileText className="h-5 w-5 text-primary" />
+                          <h4 className="font-medium">BRD (Business Requirements)</h4>
+                        </div>
+                        <p className="text-sm text-muted-foreground">
+                          Business goals and requirements to understand impact.
+                        </p>
+                        <DocumentViewDialog docType="BRD" doc={program.documentation.brd} />
+                      </div>
+                      
+                      <div className="p-4 border rounded-lg space-y-3">
+                        <div className="flex items-center space-x-2">
+                          <FileText className="h-5 w-5 text-primary" />
+                          <h4 className="font-medium">PRD (Product Requirements)</h4>
+                        </div>
+                        <p className="text-sm text-muted-foreground">
+                          Product specifications and feature expectations.
+                        </p>
+                        <DocumentViewDialog docType="PRD" doc={program.documentation.prd} />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Scope */}
