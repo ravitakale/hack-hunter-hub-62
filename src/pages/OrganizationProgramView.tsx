@@ -27,6 +27,7 @@ const mockProgram = {
   name: "Web Application Security",
   description: "Comprehensive security testing for our main web application platform. We're looking for security researchers to help identify vulnerabilities in our core web application that serves millions of users daily.",
   status: "Public",
+  type: "manual-testing", // Add program type
   reportsCount: 45,
   createdOn: "2024-01-15",
   scope: [
@@ -60,6 +61,24 @@ const mockProgram = {
   contacts: {
     security: "security@company.com",
     program: "bugbounty@company.com"
+  },
+  documentation: {
+    userStory: {
+      file: "user-story.pdf",
+      content: "As a user, I want to be able to login securely to access my account..."
+    },
+    frd: {
+      file: "functional-requirements.pdf", 
+      content: "The system shall provide secure authentication..."
+    },
+    brd: {
+      file: "business-requirements.pdf",
+      content: "Business requirement to ensure 99.9% uptime..."
+    },
+    prd: {
+      file: "product-requirements.pdf",
+      content: "Product shall support OAuth2.0 authentication..."
+    }
   },
   metrics: {
     activeResearchers: 67,
@@ -255,6 +274,54 @@ export default function OrganizationProgramView() {
                   </div>
                 </CardContent>
               </Card>
+
+              {/* Program Documentation */}
+              {program.type === 'manual-testing' && program.documentation && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center space-x-2">
+                      <FileText className="h-5 w-5" />
+                      <span>Program Documentation</span>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-3">
+                        <div className="p-3 border rounded-lg">
+                          <div className="font-medium text-sm mb-2">User Story</div>
+                          <div className="text-xs text-muted-foreground mb-2">📄 {program.documentation.userStory.file}</div>
+                          <div className="text-sm bg-muted/50 p-2 rounded text-muted-foreground">
+                            {program.documentation.userStory.content.substring(0, 100)}...
+                          </div>
+                        </div>
+                        <div className="p-3 border rounded-lg">
+                          <div className="font-medium text-sm mb-2">Business Requirements (BRD)</div>
+                          <div className="text-xs text-muted-foreground mb-2">📄 {program.documentation.brd.file}</div>
+                          <div className="text-sm bg-muted/50 p-2 rounded text-muted-foreground">
+                            {program.documentation.brd.content.substring(0, 100)}...
+                          </div>
+                        </div>
+                      </div>
+                      <div className="space-y-3">
+                        <div className="p-3 border rounded-lg">
+                          <div className="font-medium text-sm mb-2">Functional Requirements (FRD)</div>
+                          <div className="text-xs text-muted-foreground mb-2">📄 {program.documentation.frd.file}</div>
+                          <div className="text-sm bg-muted/50 p-2 rounded text-muted-foreground">
+                            {program.documentation.frd.content.substring(0, 100)}...
+                          </div>
+                        </div>
+                        <div className="p-3 border rounded-lg">
+                          <div className="font-medium text-sm mb-2">Product Requirements (PRD)</div>
+                          <div className="text-xs text-muted-foreground mb-2">📄 {program.documentation.prd.file}</div>
+                          <div className="text-sm bg-muted/50 p-2 rounded text-muted-foreground">
+                            {program.documentation.prd.content.substring(0, 100)}...
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
 
               {/* Contact Information */}
               <Card>
